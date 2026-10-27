@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create.user.dto.js';
 import { UpdateUserDto } from './dto/update.user.dto.js';
 import { PrismaService } from '../prisma/prisma.service.js';
@@ -23,19 +23,71 @@ export class UserService {
     return user;
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    const users = await this.prismaService.user.findMany();
+    if (users.length === 0) {
+      throw new HttpException('No users found', HttpStatus.NOT_FOUND);
+    }
+    
+    return users;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    const user = await this.prismaService.user.findFirst({
+      where:{
+        id: id
+      }
+    })
+
+    if (!user){
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);            
+    }
+
+    return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.prismaService.user.findFirst({
+      where: {
+        id: id
+      }
+    });
+    
+    
+    if (!user){
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);            
+    }
+
+
+
+    const userUpdate = await this.prismaService.user.update({
+      where: {
+        id: id
+      },
+      data: {
+        ...updateUserDto
+      }
+    });
+    return userUpdate;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    const user = await this.prismaService.user.findFirst({
+      where: {
+        id: id
+      }
+    });
+
+    if (!user){
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);            
+    }
+
+    await this.prismaService.user.delete({
+      where: {
+        id: id
+      }
+    });
+
+    return user;
   }
 }
