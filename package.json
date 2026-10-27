@@ -1,7 +1,7 @@
 {
   "name": "api13",
   "version": "0.0.1",
-  "description": "",
+  "description": "API REST desenvolvida com NestJS, Prisma ORM e PostgreSQL (Supabase), com autenticação JWT, documentação Swagger, validação de dados com Class Validator e Zod, além de recursos de segurança como Helmet, CORS e Rate Limiting. Arquitetura modular, escalável e orientada a boas práticas de desenvolvimento.",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
