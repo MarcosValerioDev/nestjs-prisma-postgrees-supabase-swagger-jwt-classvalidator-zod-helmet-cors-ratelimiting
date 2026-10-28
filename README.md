@@ -1,4 +1,4 @@
-# api13
+# NEST JS API PRISMA POSTGRE 
 
 API REST construída com **NestJS 12**, **Prisma ORM 7** e **PostgreSQL**, com cadastro de usuários e autenticação via **JWT**. O projeto segue a arquitetura modular do NestJS (módulos, controllers, services e DTOs) e usa injeção de dependência para desacoplar a estratégia de hash de senha.
 
